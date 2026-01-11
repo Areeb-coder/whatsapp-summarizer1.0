@@ -1,3 +1,6 @@
+/* ===== BACKEND URL ===== */
+const BACKEND_URL = 'https://whatsapp-summarizer1-0.onrender.com';
+
 /* ===== DOM ELEMENTS ===== */
 const chatFile = document.getElementById('chatFile');
 const fileName = document.getElementById('fileName');
@@ -83,7 +86,7 @@ summarizeBtn?.addEventListener('click', async () => {
     placeholderCard.style.display = 'none';
 
     try {
-        const response = await fetch('/api/summarize', {
+        const response = await fetch(`${BACKEND_URL}/api/summarize`, {
             method: 'POST',
             body: formData
         });
@@ -143,7 +146,7 @@ copyBtn?.addEventListener('click', async () => {
 /* ===== LOAD GUIDE ===== */
 async function loadGuide() {
     try {
-        const response = await fetch('/api/guide');
+        const response = await fetch(`${BACKEND_URL}/api/guide`);
         const data = await response.json();
 
         const stepsHTML = data.steps
