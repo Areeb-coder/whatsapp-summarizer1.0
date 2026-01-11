@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Summarizer - Chat Intelligence</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        #swirl-canvas {
+            display: block;
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Fluid Swirl Canvas Background -->
+    <canvas id="swirl-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <i class="fas fa-comments"></i>
+                <span>ChatSummarizer</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#guide" class="nav-link">Guide</a></li>
+                <li><a href="#summarize" class="nav-link highlight-btn">Get Started</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Summarize Your <span class="gradient-text">WhatsApp Chats</span> Instantly
+                </h1>
+                <p class="hero-subtitle">
+                    Extract key insights from your conversations powered by advanced AI
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('summarize')">
+                        <i class="fas fa-arrow-down"></i> Start Summarizing
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('features')">
+                        <i class="fas fa-star"></i> Explore Features
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="phone-mockup">
+                    <div class="phone-screen">
+                        <div class="chat-bubble user">Great summary!</div>
+                        <div class="chat-bubble ai">Analyzing your chat...</div>
+                        <div class="chat-bubble user">Perfect!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3>Date & Time Filter</h3>
+                    <p>Summarize specific date ranges to focus on conversations that matter most to you</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-magic"></i>
+                    </div>
+                    <h3>AI Powered</h3>
+                    <p>Uses AI to generate accurate and concise summaries of your chats</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-upload"></i>
+                    </div>
+                    <h3>Multiple Formats</h3>
+                    <p>Accepts both ZIP and TXT files exported directly from WhatsApp</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Fully Responsive</h3>
+                    <p>Works seamlessly on desktop, tablet, and mobile devices</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3>Privacy First</h3>
+                    <p>Your chats are processed securely and never stored permanently</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Instant Results</h3>
+                    <p>Get summaries in seconds, not hours</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Summarizer Section -->
+    <section class="summarizer" id="summarize">
+        <div class="container">
+            <h2 class="section-title">Summarize Your Chat</h2>
+            <div class="summarizer-content">
+                <div class="upload-section">
+                    <div class="upload-card">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Upload Your Chat</h3>
+                        <p>Choose exported WhatsApp chat file</p>
+
+                        <div class="file-input-wrapper">
+                            <input type="file" id="chatFile" accept=".txt,.zip" class="file-input">
+                            <label for="chatFile" class="file-label">
+                                <i class="fas fa-folder-open"></i>
+                                Choose File
+                            </label>
+                        </div>
+                        <p class="file-info" id="fileName">No file chosen</p>
+
+                        <!-- Date/Time Range Section -->
+                        <div class="date-range-section">
+                            <h4><i class="fas fa-filter"></i> Filter by Date Range (Optional)</h4>
+
+                            <div class="date-row">
+                                <div class="date-group">
+                                    <label for="startDate">From Date</label>
+                                    <input type="date" id="startDate" class="date-input">
+                                    <input type="time" id="startTime" class="time-input" value="00:00">
+                                </div>
+                                <div class="date-group">
+                                    <label for="endDate">To Date</label>
+                                    <input type="date" id="endDate" class="date-input">
+                                    <input type="time" id="endTime" class="time-input" value="23:59">
+                                </div>
+                            </div>
+
+                            <button class="btn btn-secondary" id="clearDates">
+                                <i class="fas fa-times"></i> Clear Dates
+                            </button>
+                        </div>
+
+                        <button class="btn btn-primary btn-large" id="summarizeBtn">
+                            <i class="fas fa-wand-magic-sparkles"></i> Generate Summary
+                        </button>
+                    </div>
+                </div>
+
+                <div class="result-section">
+                    <div id="loadingSpinner" class="spinner" style="display: none;">
+                        <div class="spinner-circle"></div>
+                        <p>Analyzing your chat...</p>
+                    </div>
+
+                    <div id="resultCard" class="result-card" style="display: none;">
+                        <div class="result-header">
+                            <h3><i class="fas fa-check-circle"></i> Summary Generated</h3>
+                            <button class="copy-btn" id="copyBtn">
+                                <i class="fas fa-copy"></i> Copy
+                            </button>
+                        </div>
+                        <div id="summaryContent" class="summary-content"></div>
+                        <div class="result-stats">
+                            <div class="stat">
+                                <i class="fas fa-envelope"></i>
+                                <span id="msgCount">0</span> messages analyzed
+                            </div>
+                            <div class="stat">
+                                <i class="fas fa-calendar"></i>
+                                <span id="dateRange">All dates</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="errorCard" class="error-card" style="display: none;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p id="errorMessage">An error occurred</p>
+                        <button class="btn btn-secondary" onclick="location.reload()">Try Again</button>
+                    </div>
+
+                    <div id="placeholderCard" class="placeholder-card">
+                        <i class="fas fa-inbox"></i>
+                        <p>Your summary will appear here</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Guide Section -->
+    <section class="guide" id="guide">
+        <div class="container">
+            <h2 class="section-title">How to Export & Summarize</h2>
+            <div class="guide-content">
+                <div id="guideSteps" class="steps-container">
+                    <!-- Steps will be loaded via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 WhatsApp Summarizer.</p>
+            <div class="social-links">
+                <a href="https://github.com/Areeb-coder" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="https://x.com/areeb1589" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="https://www.linkedin.com/in/areeb-khalid-960262379/" class="social-link"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Fluid Swirl Background Animation
+        const canvas = document.getElementById('swirl-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        let time = 0;
+        const curves = [];
+        const numCurves = 8;
+        
+        class FlowCurve {
+            constructor(index) {
+                this.offset = (index / numCurves) * Math.PI * 2;
+                this.speed = 0.0003 + Math.random() * 0.0002;
+                this.amplitude = 150 + Math.random() * 100;
+                this.frequency = 0.002 + Math.random() * 0.001;
+                this.centerY = canvas.height / 2;
+                this.hue = 180 + index * 20;
+            }
+            
+            draw(t) {
+                ctx.beginPath();
+                ctx.strokeStyle = `hsla(${this.hue}, 70%, 50%, 0.15)`;
+                ctx.lineWidth = 3;
+                
+                for (let x = 0; x < canvas.width; x += 5) {
+                    const angle = x * this.frequency + t * this.speed + this.offset;
+                    const y = this.centerY + Math.sin(angle) * this.amplitude * Math.sin(t * 0.0001);
+                    
+                    if (x === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                
+                ctx.stroke();
+            }
+        }
+        
+        // Initialize curves
+        for (let i = 0; i < numCurves; i++) {
+            curves.push(new FlowCurve(i));
+        }
+        
+        // Gradient orbs
+        class Orb {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.radius = 150 + Math.random() * 200;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.hue = Math.random() * 60 + 180;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < -this.radius) this.x = canvas.width + this.radius;
+                if (this.x > canvas.width + this.radius) this.x = -this.radius;
+                if (this.y < -this.radius) this.y = canvas.height + this.radius;
+                if (this.y > canvas.height + this.radius) this.y = -this.radius;
+            }
+            
+            draw() {
+                const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+                gradient.addColorStop(0, `hsla(${this.hue}, 80%, 60%, 0.2)`);
+                gradient.addColorStop(0.5, `hsla(${this.hue}, 80%, 50%, 0.1)`);
+                gradient.addColorStop(1, `hsla(${this.hue}, 80%, 40%, 0)`);
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+            }
+        }
+        
+        const orbs = [];
+        for (let i = 0; i < 5; i++) {
+            orbs.push(new Orb());
+        }
+        
+        function animate() {
+            // Create trailing effect
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw orbs
+            orbs.forEach(orb => {
+                orb.update();
+                orb.draw();
+            });
+            
+            // Draw flowing curves
+            curves.forEach(curve => {
+                curve.draw(time);
+            });
+            
+            time++;
+            requestAnimationFrame(animate);
+        }
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            curves.forEach(curve => {
+                curve.centerY = canvas.height / 2;
+            });
+        });
+        
+        // Mouse interaction
+        canvas.addEventListener('mousemove', (e) => {
+            const mouseOrb = {
+                x: e.clientX,
+                y: e.clientY,
+                radius: 200
+            };
+            
+            const gradient = ctx.createRadialGradient(mouseOrb.x, mouseOrb.y, 0, mouseOrb.x, mouseOrb.y, mouseOrb.radius);
+            gradient.addColorStop(0, 'hsla(280, 80%, 60%, 0.15)');
+            gradient.addColorStop(1, 'hsla(280, 80%, 60%, 0)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(mouseOrb.x - mouseOrb.radius, mouseOrb.y - mouseOrb.radius, mouseOrb.radius * 2, mouseOrb.radius * 2);
+        });
+        
+        animate();
+    </script>
+    <script>
+        // Copy button functionality
+        const copyBtn = document.getElementById('copyBtn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', async function() {
+                const summaryContent = document.getElementById('summaryContent');
+                if (summaryContent && summaryContent.textContent) {
+                    try {
+                        await navigator.clipboard.writeText(summaryContent.textContent);
+                        const originalText = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                        setTimeout(() => {
+                            copyBtn.innerHTML = originalText;
+                        }, 2000);
+                    } catch (err) {
+                        console.error('Failed to copy:', err);
+                    }
+                }
+            });
+        }
+    </script>
