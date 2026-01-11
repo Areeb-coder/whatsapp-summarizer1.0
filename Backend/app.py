@@ -16,9 +16,14 @@ import google.generativeai as genai  # still supported, just use valid model nam
 
 load_dotenv()
 
+# Set up template and static folders
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+template_folder = os.path.join(base_dir, 'frontend')
+static_folder = os.path.join(base_dir, 'frontend')
+
 app = Flask(__name__, 
-            template_folder='../frontend',
-            static_folder='../frontend',
+            template_folder=template_folder,
+            static_folder=static_folder,
             static_url_path='')
 CORS(app)
 
