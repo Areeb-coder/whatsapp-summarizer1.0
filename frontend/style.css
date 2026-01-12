@@ -1863,8 +1863,7 @@ padding: var(--space-32);
 /* Ensure content stays above canvas */
 body > *:not(#swirl-canvas) {
     position: relative;
-    z-index: 1;
-}
+  }
 
 .navbar {
     z-index: 1000;
