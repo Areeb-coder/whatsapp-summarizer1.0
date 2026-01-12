@@ -1,5 +1,7 @@
 /* ===== BACKEND URL ===== */
-const BACKEND_URL = 'https://whatsapp-summarizer1-0.onrender.com';
+// For local development, use: http://localhost:5000
+// For production, use: https://whatsapp-summarizer1-0.onrender.com
+const BACKEND_URL = 'http://localhost:5000';
 
 /* ===== DOM ELEMENTS ===== */
 const chatFile = document.getElementById('chatFile');
