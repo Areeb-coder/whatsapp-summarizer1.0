@@ -1,7 +1,7 @@
 /* ===== BACKEND URL ===== */
 // For local development, use: http://localhost:5000
 // For production, use: https://whatsapp-summarizer1-0.onrender.com
-const BACKEND_URL = 'https://whatsapp-summarizer1-0.onrender.com';
+const BACKEND_URL = 'http://localhost:5000';
 
 /* ===== DOM ELEMENTS ===== */
 const chatFile = document.getElementById('chatFile');
@@ -148,20 +148,20 @@ copyBtn?.addEventListener('click', async () => {
 /* ===== FALLBACK GUIDE STEPS (Used if API fails) ===== */
 const fallbackGuideSteps = [
   {
-    title: 'Export from WhatsApp',
-    description: 'Open the chat, tap the menu icon (⋮), and select "More" → "Export chat"'
+    title: 'Export Chat',
+    description: 'Open chat > Menu > More > Export chat.'
   },
   {
-    title: 'Choose File Format',
-    description: 'Select either ZIP (with media) or TXT (text only) format for export'
+    title: 'Choose Format',
+    description: 'Select ZIP (media) or TXT (text only).'
   },
   {
-    title: 'Upload Your File',
-    description: 'Click "Choose File" and select your exported WhatsApp chat file (ZIP or TXT)'
+    title: 'Upload File',
+    description: 'Select your exported WhatsApp file.'
   },
   {
-    title: 'Set Date Range',
-    description: 'Optionally filter by date range using the "Filter by Date Range" option'
+    title: 'Filter Dates',
+    description: 'Optionally set a date range.'
   }
 ];
 
@@ -258,7 +258,8 @@ endDate?.addEventListener('change', () => {
 /* ===== INITIALIZE ===== */
 document.addEventListener('DOMContentLoaded', () => {
   console.log('Page loaded, initializing guide...');
-  loadGuide();
+  // Guide loaded directly from local configuration to ensure 4 concise steps
+  renderGuideSteps(fallbackGuideSteps);
 });
 
 /* ===== KEYBOARD SHORTCUTS ===== */
