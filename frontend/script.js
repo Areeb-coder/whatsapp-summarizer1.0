@@ -1,7 +1,7 @@
 /* ===== BACKEND URL ===== */
 // For local development, use: http://localhost:5000
 // For production, use: https://whatsapp-summarizer1-0.onrender.com
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = 'https://whatsapp-summarizer1-0.onrender.com';
 
 /* ===== DOM ELEMENTS ===== */
 const chatFile = document.getElementById('chatFile');
@@ -174,9 +174,9 @@ async function loadGuide() {
 
   try {
     console.log('Attempting to load guide from API...');
-    
+
     const response = await fetch(`${BACKEND_URL}/api/guide`);
-    
+
     console.log('Guide API response status:', response.status);
 
     if (!response.ok) {
@@ -200,7 +200,7 @@ async function loadGuide() {
   } catch (error) {
     console.error('Failed to load guide from API:', error.message);
     console.log('Using fallback guide steps instead');
-    
+
     // Use fallback guide if API fails
     renderGuideSteps(fallbackGuideSteps);
   }
@@ -223,7 +223,7 @@ function renderGuideSteps(steps) {
       .map((step, index) => {
         const title = step.title || `Step ${index + 1}`;
         const description = step.description || '';
-        
+
         return `
           <div class="step-card">
             <div class="step-number">${index + 1}</div>
@@ -233,7 +233,7 @@ function renderGuideSteps(steps) {
         `;
       })
       .join('');
-    
+
     guideSteps.innerHTML = stepsHTML;
     console.log('Guide steps rendered successfully');
   } catch (error) {
